@@ -10,7 +10,7 @@ class PersonInfo:
         self.work_number = work_number
         self.mobile_number = mobile_number
 
-    def input_person_info(self):
+    def input_person_info(self) -> None:
         """Функция ввода данных по отдельному контакту."""
 
         # ввод данных контакта и проверка вводимых данных на соответствие стандартам.
@@ -55,7 +55,7 @@ class PersonInfo:
 class Contacts:
     """Класс действий с контактоми"""
 
-    def found_contact(self):
+    def found_contact(self) -> str:
         """Поиск нужного контакта"""
 
         person_data = (input("Введите ФИО контакта через пробел: ")).title().split()
@@ -71,7 +71,7 @@ class Contacts:
             if answer is False:
                 print("Такого контакта не существует! Проверьте правильность ввода!")
 
-    def create_new_contact(self):
+    def create_new_contact(self) -> None:
         """Создание нового контакта"""
 
         data = PersonInfo()
@@ -83,7 +83,7 @@ class Contacts:
                        f" личный телефон(сотовый):{data.mobile_number};" + "\n")
             print("Новый контакт добавлен!")
 
-    def show_contacts(self):
+    def show_contacts(self) -> None:
         """Отображение всех существующих контактов"""
 
         # вывод списка контактов.
@@ -91,7 +91,7 @@ class Contacts:
             for line in file:
                 print(line)
 
-    def delete_contact(self):
+    def delete_contact(self) -> None:
         """Удаление нужного контакта"""
 
         cont = Contacts()
@@ -109,7 +109,7 @@ class Contacts:
                 else:
                     print("Контакт был удалён!")
 
-    def edit_contact(self):
+    def edit_contact(self) -> None:
         """Находит нужный контакт заменяет данные на необходимые"""
         contact = Contacts()
         # поиск необходиемого контакта.
@@ -132,7 +132,7 @@ class Contacts:
 class Main:
     """Класс предоставляющий выполнение операций по телефонной книге"""
 
-    def menu(self):
+    def menu(self) -> None:
         """Основное меню"""
 
         contact = Contacts()
