@@ -78,7 +78,7 @@ class Contacts:
         data.input_person_info()
         # запись нового контакта в файл.
         with open("phone_numbers.txt", "a", encoding="utf-8") as file:
-            file.write(f"{data.surname} {data.first_name} {data.second_name} орг:{data.organization};"
+            file.write(f"{data.surname} {data.first_name} {data.second_name} орг.:{data.organization};"
                        f" рабочий телефон:{data.work_number};"
                        f" личный телефон(сотовый):{data.mobile_number};" + "\n")
             print("Новый контакт добавлен!")
@@ -111,22 +111,27 @@ class Contacts:
 
     def edit_contact(self) -> None:
         """Находит нужный контакт заменяет данные на необходимые"""
+
         contact = Contacts()
-        # поиск необходиемого контакта.
-        found_line = str(contact.found_contact()).strip()
-        # ввод новых данных о контакте.
-        edited_information = str(input("Введите изменённые данные о контакте через пробел: ")).strip()
 
-        # перезапись контакта.
-        with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            lines = file.readlines()
+        while True:
+            # поиск необходиемого контакта.
+            found_line = str(contact.found_contact()).strip()
+            if len(found_line) > 30:
+                # ввод новых данных о контакте.
+                edited_information = str(input("Введите изменённые данные о контакте через пробел: ")).strip()
 
-        with open("phone_numbers.txt", "w", encoding="utf-8") as f:
-            for line in lines:
-                if line.strip() == found_line:
-                    f.write(f"{edited_information}" + "\n")
-                else:
-                    f.write(line)
+                # перезапись контакта.
+                with open("phone_numbers.txt", "r", encoding="utf-8") as file:
+                    lines = file.readlines()
+
+                with open("phone_numbers.txt", "w", encoding="utf-8") as f:
+                    for line in lines:
+                        if line.strip() == found_line:
+                            f.write(f"{edited_information}" + "\n")
+                        else:
+                            f.write(line)
+                    break
 
 
 class Main:
@@ -147,25 +152,27 @@ class Main:
             print("--- 5 для редактирования необходимого контакта;")
             print("--- 6 для выхода из программы;")
             # выбор режима.
-            mode_selection = int(input("Введите номер режима: "))
-            if mode_selection == 1:
+            mode_selection = input("Введите номер режима: ")
+            if mode_selection == "1":
                 print("Вот все существующие контакты на данный момент: ")
                 contact.show_contacts()
-            elif mode_selection == 2:
+            elif mode_selection == "2":
                 print("Вы находитесь в режиме добавления нового контакта.")
                 contact.create_new_contact()
-            elif mode_selection == 3:
+            elif mode_selection == "3":
                 print("Вы находитесь в режиме поиска контакта.")
                 contact.found_contact()
-            elif mode_selection == 4:
+            elif mode_selection == "4":
                 print("Вы находитесь в режиме удаления контакта.")
                 contact.delete_contact()
-            elif mode_selection == 5:
+            elif mode_selection == "5":
                 print("Вы находитесь в режиме редактирования контакта.")
                 contact.edit_contact()
-            elif mode_selection == 6:
+            elif mode_selection == "6":
                 print("Спасибо, что пользуетесь нашей телефонной книгой! До свидания!")
                 break
+            else:
+                print("Такой команды не существует! Попробуйте ещё!")
 
 
 if __name__ == "__main__":
