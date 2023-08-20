@@ -13,13 +13,39 @@ class PersonInfo:
     def input_person_info(self):
         """Функция ввода данных по отдельному контакту."""
 
-        # ввод данных контакта.
-        self.surname = input("Введите фамилию: ").capitalize()
-        self.first_name = input("Введите имя: ").capitalize()
-        self.second_name = input("Введите Отчество: ").capitalize()
-        self.organization = input("Введите название организации: ").capitalize()
-        self.work_number = input("Введите рабочий телефон: ")
-        self.mobile_number = input("Введите личный телефон(сотовый): ")
+        # ввод данных контакта и проверка вводимых данных на соответствие стандартам.
+        while True:
+            self.surname = input("Введите фамилию: ").capitalize()
+            if self.surname.isalpha():
+                break
+            else:
+                print("Фамилия должна состоять из букв! Проверьте правильность ввода!")
+        while True:
+            self.first_name = input("Введите имя: ").capitalize()
+            if self.first_name.isalpha():
+                break
+            else:
+                print("Имя должно состоять из букв! Проверьте правильность ввода!")
+        while True:
+            self.second_name = input("Введите Отчество: ").capitalize()
+            if self.second_name.isalpha():
+                break
+            else:
+                print("Отчество должно состоять из букв! Проверьте правильность ввода!")
+        self.organization = input("Введите название организации: ")
+        while True:
+            self.work_number = input("Введите рабочий телефон: ")
+            if self.work_number.isdigit() and len(self.work_number) == 5:
+                break
+            else:
+                print("Рабочий номер должен состоять из цифр и быть длинной в 5 цифр! Проверьте правильность ввода!")
+        while True:
+            self.mobile_number = input("Введите личный телефон(сотовый): ")
+            if self.mobile_number.isdigit() and len(self.mobile_number) == 7:
+                break
+            else:
+                print("Мобильный номер должен состоять из цифр и быть длинной в 7 цифр!"
+                      " Проверьте правильность ввода!")
 
     def __str__(self):
         return f"{self.surname} {self.first_name} {self.second_name} {self.organization}" \
@@ -60,6 +86,7 @@ class Contacts:
     def show_contacts(self):
         """Отображение всех существующих контактов"""
 
+        # вывод списка контактов.
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
             for line in file:
                 print(line)
@@ -111,6 +138,7 @@ class Main:
         contact = Contacts()
 
         while True:
+            # список существующих режимов.
             print("Для выбора режима введите необходимое значение:")
             print("--- 1 для вывода всех контактов на экран;")
             print("--- 2 для довавления нового контакта в справочник;")
@@ -118,7 +146,7 @@ class Main:
             print("--- 4 для удаление контакта;")
             print("--- 5 для редактирования необходимого контакта;")
             print("--- 6 для выхода из программы;")
-            # выбор режима
+            # выбор режима.
             mode_selection = int(input("Введите номер режима: "))
             if mode_selection == 1:
                 print("Вот все существующие контакты на данный момент: ")
