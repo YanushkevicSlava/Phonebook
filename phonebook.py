@@ -15,32 +15,32 @@ class PersonInfo:
 
         # ввод данных контакта и проверка вводимых данных на соответствие стандартам.
         while True:
-            self.surname = input("Введите фамилию: ").capitalize()
+            self.surname: str = input("Введите фамилию: ").capitalize()
             if self.surname.isalpha():
                 break
             else:
                 print("Фамилия должна состоять из букв! Проверьте правильность ввода!")
         while True:
-            self.first_name = input("Введите имя: ").capitalize()
+            self.first_name: str = input("Введите имя: ").capitalize()
             if self.first_name.isalpha():
                 break
             else:
                 print("Имя должно состоять из букв! Проверьте правильность ввода!")
         while True:
-            self.second_name = input("Введите Отчество: ").capitalize()
+            self.second_name: str = input("Введите Отчество: ").capitalize()
             if self.second_name.isalpha():
                 break
             else:
                 print("Отчество должно состоять из букв! Проверьте правильность ввода!")
-        self.organization = input("Введите название организации: ")
+        self.organization: str = input("Введите название организации: ")
         while True:
-            self.work_number = input("Введите рабочий телефон: ")
+            self.work_number: str = input("Введите рабочий телефон: ")
             if self.work_number.isdigit() and len(self.work_number) == 5:
                 break
             else:
                 print("Рабочий номер должен состоять из цифр и быть длинной в 5 цифр! Проверьте правильность ввода!")
         while True:
-            self.mobile_number = input("Введите личный телефон(сотовый): ")
+            self.mobile_number: str = input("Введите личный телефон(сотовый): ")
             if self.mobile_number.isdigit() and len(self.mobile_number) == 7:
                 break
             else:
@@ -58,9 +58,9 @@ class Contacts:
     def found_contact(self) -> str:
         """Поиск нужного контакта"""
 
-        person_data = (input("Введите ФИО контакта через пробел: ")).title().split()
+        person_data: list = (input("Введите ФИО контакта через пробел: ")).title().split()
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            answer = False
+            answer: bool = False
             for line in file:
                 fio = line.split()
                 if fio[:3] == person_data:
@@ -116,8 +116,8 @@ class Contacts:
 
         while True:
             # поиск необходиемого контакта.
-            found_line = str(contact.found_contact()).strip()
-            if len(found_line) > 30:
+            found_line: str = str(contact.found_contact()).strip()
+            if len(found_line) > 5:
                 # ввод новых данных о контакте.
                 edited_information = str(input("Введите изменённые данные о контакте через пробел: ")).strip()
 
@@ -152,7 +152,7 @@ class Main:
             print("--- 5 для редактирования необходимого контакта;")
             print("--- 6 для выхода из программы;")
             # выбор режима.
-            mode_selection = input("Введите номер режима: ")
+            mode_selection: str = input("Введите номер режима: ")
             if mode_selection == "1":
                 print("Вот все существующие контакты на данный момент: ")
                 contact.show_contacts()
