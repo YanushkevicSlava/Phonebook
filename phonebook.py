@@ -55,20 +55,18 @@ class PersonInfo:
 class Contacts:
     """Класс действий с контактоми"""
 
-    def found_contact(self) -> str:
+    def found_contact(self) -> None:
         """Поиск нужного контакта"""
 
-        person_data: list = (input("Введите ФИО контакта через пробел: ")).title().split()
+        person_data: list = (input("Введите фамилию или полное ФИО контакта через пробел: ")).title().split()
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            answer: bool = False
+            count = 0
             for line in file:
                 fio = line.split()
-                if fio[:3] == person_data:
-                    answer = True
+                if fio[:3] == person_data or fio[0] == person_data[0]:
                     print(f"Вот контакт, который вы искали: {line}")
-                    return line
-
-            if answer is False:
+                    count += 1
+            if count == 0:
                 print("Такого контакта не существует! Проверьте правильность ввода!")
 
     def create_new_contact(self) -> None:
