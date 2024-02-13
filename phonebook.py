@@ -1,3 +1,6 @@
+import csv
+
+
 class PersonInfo:
     """Базовый класс инвормации о контакте"""
 
@@ -55,18 +58,22 @@ class PersonInfo:
 class Contacts:
     """Класс действий с контактоми"""
 
-    def found_contact(self) -> None:
+    def found_contact(self) -> str:
         """Поиск нужного контакта"""
 
-        person_data: list = (input("Введите фамилию или полное ФИО контакта через пробел: ")).title().split()
+        person_data: list = (input("Введите ФИО контакта через пробел: ")).title().split()
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            count = 0
+            answer = False
             for line in file:
                 fio = line.split()
-                if fio[:3] == person_data or fio[0] == person_data[0]:
+                if fio[:3] == person_data:
                     print(f"Вот контакт, который вы искали: {line}")
-                    count += 1
-            if count == 0:
+                    answer = True
+                    return line
+                elif fio[0] == person_data[0]:
+                    print(f"Вот контакт, который вы искали: {line}")
+                    answer = True
+            if answer is False:
                 print("Такого контакта не существует! Проверьте правильность ввода!")
 
     def create_new_contact(self) -> None:
@@ -81,13 +88,25 @@ class Contacts:
                        f" личный телефон(сотовый):{data.mobile_number};" + "\n")
             print("Новый контакт добавлен!")
 
-    def show_contacts(self) -> None:
+    def show_contacts(self, page_size: int = 10) -> None:
         """Отображение всех существующих контактов"""
 
-        # вывод списка контактов.
+        # вывод постранично списка контактов.
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            for line in file:
-                print(line)
+            records = file.readlines()
+            num_records = len(records) - 1
+            num_pages = num_records // page_size + 1
+
+            for page in range(num_pages):
+                start_index = page * page_size
+                end_index = min(start_index + page_size, num_records + 1)
+                page_records = records[start_index:end_index]
+
+                for record in page_records:
+                    print("".join(record))
+
+                if end_index < num_records + 1:
+                    input("Нажмите Enter для перехода на следующую страницу:")
 
     def delete_contact(self) -> None:
         """Удаление нужного контакта"""
