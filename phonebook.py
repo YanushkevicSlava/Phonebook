@@ -1,6 +1,3 @@
-import csv
-
-
 class PersonInfo:
     """Базовый класс инвормации о контакте"""
 
@@ -57,26 +54,30 @@ class PersonInfo:
 
 class Contacts:
     """Класс действий с контактоми"""
-
-    def found_contact(self) -> str:
+    @staticmethod
+    def found_contact() -> str:
         """Поиск нужного контакта"""
 
         person_data: list = (input("Введите ФИО контакта через пробел: ")).title().split()
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            answer = False
+            answer: bool = False
             for line in file:
                 fio = line.split()
-                if fio[:3] == person_data:
+                # при вводе полных данных.
+                if len(person_data) > 1 and fio[:3] == person_data:
                     print(f"Вот контакт, который вы искали: {line}")
-                    answer = True
+                    answer: bool = True
                     return line
-                elif fio[0] == person_data[0]:
+                # при вводе только фамилии.
+                elif len(person_data) == 1 and fio[0] == person_data[0]:
                     print(f"Вот контакт, который вы искали: {line}")
-                    answer = True
+                    answer: bool = True
+
             if answer is False:
                 print("Такого контакта не существует! Проверьте правильность ввода!")
 
-    def create_new_contact(self) -> None:
+    @staticmethod
+    def create_new_contact() -> None:
         """Создание нового контакта"""
 
         data = PersonInfo()
@@ -88,19 +89,20 @@ class Contacts:
                        f" личный телефон(сотовый):{data.mobile_number};" + "\n")
             print("Новый контакт добавлен!")
 
-    def show_contacts(self, page_size: int = 10) -> None:
+    @staticmethod
+    def show_contacts(page_size: int = 10) -> None:
         """Отображение всех существующих контактов"""
 
-        # вывод постранично списка контактов.
+        # вывод постранично списка контактов с интервалом в 10 записей.
         with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-            records = file.readlines()
-            num_records = len(records) - 1
-            num_pages = num_records // page_size + 1
+            records: list[str] = file.readlines()
+            num_records: int = len(records) - 1
+            num_pages: int = num_records // page_size + 1
 
             for page in range(num_pages):
-                start_index = page * page_size
-                end_index = min(start_index + page_size, num_records + 1)
-                page_records = records[start_index:end_index]
+                start_index: int = page * page_size
+                end_index: int = min(start_index + page_size, num_records + 1)
+                page_records: list[str] = records[start_index:end_index]
 
                 for record in page_records:
                     print("".join(record))
@@ -108,7 +110,8 @@ class Contacts:
                 if end_index < num_records + 1:
                     input("Нажмите Enter для перехода на следующую страницу:")
 
-    def delete_contact(self) -> None:
+    @staticmethod
+    def delete_contact() -> None:
         """Удаление нужного контакта"""
 
         cont = Contacts()
@@ -126,7 +129,8 @@ class Contacts:
                 else:
                     print("Контакт был удалён!")
 
-    def edit_contact(self) -> None:
+    @staticmethod
+    def edit_contact() -> None:
         """Находит нужный контакт заменяет данные на необходимые"""
 
         contact = Contacts()
@@ -136,11 +140,12 @@ class Contacts:
             found_line: str = str(contact.found_contact()).strip()
             if len(found_line) > 5:
                 # ввод новых данных о контакте.
-                edited_information = str(input("Введите изменённые данные о контакте через пробел: ")).strip()
+                edited_information: str = str(input("Введите полные изменённые данные "
+                                                    "о контакте через пробел: ")).strip()
 
                 # перезапись контакта.
                 with open("phone_numbers.txt", "r", encoding="utf-8") as file:
-                    lines = file.readlines()
+                    lines: list[str] = file.readlines()
 
                 with open("phone_numbers.txt", "w", encoding="utf-8") as f:
                     for line in lines:
@@ -154,7 +159,8 @@ class Contacts:
 class Main:
     """Класс предоставляющий выполнение операций по телефонной книге"""
 
-    def menu(self) -> None:
+    @staticmethod
+    def menu() -> None:
         """Основное меню"""
 
         contact = Contacts()
